@@ -21,7 +21,7 @@ impl Default for EventHandler {
 impl EventHandler {
     pub fn poll_events(&mut self, ctx: &mut Context, screen: &mut Screen, mouse: &mut Mouse) {
         // Poll and handle events
-        ctx.glfw().poll_events();
+        ctx.glfw_mut().poll_events();
         for (_, event) in glfw::flush_messages(&ctx.events()) {
             match event {
                 glfw::WindowEvent::FramebufferSize(width, height) => {

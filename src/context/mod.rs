@@ -51,8 +51,8 @@ impl Context {
         !self.window.should_close()
     }
     
-    pub fn glfw(&mut self) -> &mut Glfw {
-        &mut self.glfw
+    pub fn glfw(&self) -> &Glfw {
+        &self.glfw
     }
     
     pub fn window(&self) -> &PWindow {
@@ -61,5 +61,13 @@ impl Context {
     
     pub fn events(&self) -> &Events {
         &self.events
+    }
+
+    pub fn glfw_mut(&mut self) -> &mut Glfw {
+        &mut self.glfw
+    }
+
+    pub fn window_mut(&mut self) -> &mut PWindow {
+        &mut self.window
     }
 }

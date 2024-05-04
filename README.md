@@ -1,2 +1,2 @@
 # suoi_rwin
-SUOI's Rendering and WINdow management solution (RWIN)
+SUOI's Rendering and Window INitialization solution (RWIN)

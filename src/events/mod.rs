@@ -12,6 +12,12 @@ pub struct EventHandler {
     events: Vec<Event>,
 }
 
+impl Default for EventHandler {
+    fn default() -> Self {
+        Self { events: vec![] }
+    }
+}
+
 impl EventHandler {
     pub fn poll_events(&mut self, ctx: &mut Context, screen: &mut Screen, mouse: &mut Mouse) {
         // Poll and handle events

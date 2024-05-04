@@ -35,7 +35,6 @@ impl EventHandler {
                     let pos = Vector2::new(xpos as f32, ypos as f32);
 
                     mouse.update_position(pos);
-                    println!("{:?}", pos);
 
                     self.events.push(Event::MovedCursor(pos))
                 }

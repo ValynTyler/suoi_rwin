@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 gl = "0.14.0"
 glfw = "*"
+
+nerd = { path = "../nerd-rs" }

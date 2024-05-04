@@ -46,4 +46,16 @@ impl Context {
             events
         }
     }
+    
+    pub fn glfw(&mut self) -> &mut Glfw {
+        &mut self.glfw
+    }
+    
+    pub fn window(&self) -> &PWindow {
+        &self.window
+    }
+    
+    pub fn events(&self) -> &Events {
+        &self.events
+    }
 }

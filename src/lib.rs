@@ -9,3 +9,6 @@ pub use events::*;
 
 pub mod mouse;
 pub use mouse::*;
+
+pub mod keyboard;
+pub use keyboard::*;

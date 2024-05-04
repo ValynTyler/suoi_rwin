@@ -42,7 +42,7 @@ impl From<glfw::Action> for KeyState {
 pub struct Keyboard;
 
 impl Keyboard {
-    pub fn get_key(&self, key: Key, ctx: Context) -> KeyState {
+    pub fn get_key(&self, key: Key, ctx: &mut Context) -> KeyState {
         match key {
             Key::W => KeyState::from(ctx.window().get_key(glfw::Key::W)),
             Key::A => KeyState::from(ctx.window().get_key(glfw::Key::A)),

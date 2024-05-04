@@ -5,6 +5,7 @@ pub enum Key {
     A,
     S,
     D,
+    Esc,
 }
 
 pub enum KeyState {
@@ -47,6 +48,7 @@ impl Keyboard {
             Key::A => KeyState::from(ctx.window().get_key(glfw::Key::A)),
             Key::S => KeyState::from(ctx.window().get_key(glfw::Key::S)),
             Key::D => KeyState::from(ctx.window().get_key(glfw::Key::D)),
+            Key::Esc => KeyState::from(ctx.window().get_key(glfw::Key::Escape)),
         }
     }
 }

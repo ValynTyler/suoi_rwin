@@ -12,3 +12,6 @@ pub use mouse::*;
 
 pub mod keyboard;
 pub use keyboard::*;
+
+pub mod time;
+pub use time::*;

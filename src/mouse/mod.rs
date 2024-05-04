@@ -38,6 +38,14 @@ impl Mouse {
         self.position
     }
 
+    pub fn delta(&self) -> Vector2 {
+        self.position - self.last_pos
+    }
+
+    pub fn poll(&mut self) {
+        self.last_pos = self.position
+    }
+
     pub fn update_position(&mut self, pos: Vector2) {
         self.position = pos;
     }

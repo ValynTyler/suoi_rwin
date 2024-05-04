@@ -46,6 +46,10 @@ impl Context {
             events
         }
     }
+
+    pub fn running(&self) -> bool {
+        !self.window.should_close()
+    }
     
     pub fn glfw(&mut self) -> &mut Glfw {
         &mut self.glfw

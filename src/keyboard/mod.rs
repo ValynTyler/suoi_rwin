@@ -12,6 +12,22 @@ pub enum KeyState {
     Released,
 }
 
+impl KeyState {
+    pub fn is_pressed(&self) -> bool {
+        match self {
+            KeyState::Pressed => true,
+            KeyState::Released => false,
+        }
+    }
+
+    pub fn is_released(&self) -> bool {
+        match self {
+            KeyState::Pressed => false,
+            KeyState::Released => true,
+        }
+    }
+}
+
 impl From<glfw::Action> for KeyState {
     fn from(value: glfw::Action) -> Self {
         match value {

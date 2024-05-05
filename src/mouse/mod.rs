@@ -42,7 +42,7 @@ impl Mouse {
         self.position - self.last_pos
     }
 
-    pub fn poll(&mut self) {
+    pub fn poll_delta(&mut self) {
         self.last_pos = self.position
     }
 

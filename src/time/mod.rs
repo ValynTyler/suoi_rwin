@@ -21,6 +21,10 @@ impl Time {
         self.seconds - self.seconds_last_frame
     }
     
+    pub fn framerate(&self) -> f32 {
+        1.0 / self.delta()
+    }
+    
     pub fn seconds(&self) -> f32 {
         self.seconds
     }

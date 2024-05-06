@@ -2,15 +2,35 @@ use std::str::from_utf8;
 
 use gl::types::{GLchar, GLint, GLuint};
 
-use crate::{ShaderError, ShaderStage};
+use crate::{ShaderError, ShaderStage, ShaderUniform};
 
 #[allow(unused)]
 pub struct Shader {
-    id: GLuint,
+    pub(crate) id: GLuint,
 }
 
 impl Shader {
-    pub unsafe fn compile(vertex: ShaderStage, fragment: ShaderStage) -> Result<Shader, ShaderError> {
+    /// Calls `f` with `self` as the active shader
+    pub unsafe fn with<F>(&self, mut f: F)
+    where
+        F: FnMut(),
+    {
+        gl::UseProgram(self.id);
+        f();
+        gl::UseProgram(0);
+    }
+
+    pub unsafe fn set_uniform<U>(&self, name: &str, uniform: U)
+    where
+        U: ShaderUniform,
+    {
+        uniform.set(&self, name)
+    }
+
+    pub unsafe fn compile(
+        vertex: ShaderStage,
+        fragment: ShaderStage,
+    ) -> Result<Shader, ShaderError> {
         // Shader Program
         let shader_program = gl::CreateProgram();
         gl::AttachShader(shader_program, vertex.id());

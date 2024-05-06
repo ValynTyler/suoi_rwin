@@ -1,3 +1,5 @@
+use nerd::color::Color;
+
 pub struct Renderer {}
 
 impl Renderer {
@@ -18,5 +20,15 @@ impl Renderer {
 
         // Z-Buffer
         gl::Enable(gl::DEPTH_TEST);
+    }
+
+    pub unsafe fn clear_screen(col: Color) {
+        gl::ClearColor(
+            col.r as f32 / 255.,
+            col.g as f32 / 255.,
+            col.b as f32 / 255.,
+            1.0,
+        );
+        gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
     }
 }

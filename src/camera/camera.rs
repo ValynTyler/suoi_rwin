@@ -35,6 +35,10 @@ impl Camera {
         self.local_space.right
     }
 
+    pub fn up(&self) -> Vector3 {
+        self.local_space.up
+    }
+
     pub fn position_mut(&mut self) -> &mut Vector3 {
         &mut self.local_space.origin
     }

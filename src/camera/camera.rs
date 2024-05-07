@@ -19,12 +19,6 @@ impl Camera {
 
     #[rustfmt::skip]
     pub fn view_matrix(&self) -> Matrix4 {
-        // Matrix4::look_at(
-        //     self.local_space.origin,
-        //     self.local_space.origin + self.local_space.forward,
-        //     self.local_space.up,
-        // )
-
         let f = self.transform.forward();
         let r = self.transform.right();
         let u = self.transform.up();

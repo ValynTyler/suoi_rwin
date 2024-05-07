@@ -125,6 +125,14 @@ dependencies = [
  "gl",
  "glfw",
  "nerd",
+ "suoi_types",
+]
+
+[[package]]
+name = "suoi_types"
+version = "0.1.0"
+dependencies = [
+ "nerd",
 ]
 
 [[package]]

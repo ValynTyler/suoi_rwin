@@ -17,30 +17,32 @@ pub enum ProjectionType {
     Perspective,
 }
 
-pub struct Projection {
+pub struct Projection<A>
+where
+    A: Angle,
+{
     kind: ProjectionType,
     planes: ClippingPlanes,
-    fov: Angle,
+    fov: A,
 }
 
-impl Projection {
-    pub fn new(kind: ProjectionType, planes: ClippingPlanes, fov: Angle) -> Self {
-        Self {
-            kind,
-            planes,
-            fov,
-        }
+impl<A> Projection<A>
+where
+    A: Angle,
+{
+    pub fn new(kind: ProjectionType, planes: ClippingPlanes, fov: A) -> Self {
+        Self { kind, planes, fov }
     }
-    
+
     pub fn kind(&self) -> &ProjectionType {
         &self.kind
     }
-    
+
     pub fn planes(&self) -> &ClippingPlanes {
         &self.planes
     }
-    
-    pub fn fov(&self) -> Angle {
+
+    pub fn fov(&self) -> A {
         self.fov
     }
 }

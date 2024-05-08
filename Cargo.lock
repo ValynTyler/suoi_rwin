@@ -120,6 +120,14 @@ version = "0.1.0"
 dependencies = [
  "gl",
  "glfw",
+ "suoi_simp",
+ "suoi_types",
+]
+
+[[package]]
+name = "suoi_simp"
+version = "0.1.0"
+dependencies = [
  "suoi_types",
 ]
 

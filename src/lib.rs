@@ -24,3 +24,6 @@ pub use camera::*;
 
 pub mod shader;
 pub use shader::*;
+
+pub mod model;
+pub use model::*;

@@ -8,3 +8,4 @@ gl = "0.14.0"
 glfw = "*"
 
 suoi_types = { path = "../suoi_types" }
+suoi_simp = { path = "../suoi_simp" }

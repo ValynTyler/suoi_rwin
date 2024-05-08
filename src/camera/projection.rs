@@ -1,4 +1,4 @@
-use suoi_types::Angle;
+use suoi_types::{Angle, Rad};
 
 #[allow(unused)]
 pub struct ClippingPlanes {
@@ -17,21 +17,18 @@ pub enum ProjectionType {
     Perspective,
 }
 
-pub struct Projection<A>
-where
-    A: Angle,
-{
+pub struct Projection {
     kind: ProjectionType,
     planes: ClippingPlanes,
-    fov: A,
+    fov: Rad,
 }
 
-impl<A> Projection<A>
-where
-    A: Angle,
-{
-    pub fn new(kind: ProjectionType, planes: ClippingPlanes, fov: A) -> Self {
-        Self { kind, planes, fov }
+impl Projection {
+    pub fn new<A>(kind: ProjectionType, planes: ClippingPlanes, fov: A) -> Self
+    where
+        A: Angle,
+    {
+        Self { kind, planes, fov: fov.rad() }
     }
 
     pub fn kind(&self) -> &ProjectionType {
@@ -42,7 +39,7 @@ where
         &self.planes
     }
 
-    pub fn fov(&self) -> A {
+    pub fn fov(&self) -> Rad {
         self.fov
     }
 }

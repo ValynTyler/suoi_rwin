@@ -1,19 +1,18 @@
 use nerd::matrix::Matrix4;
 use nerd::vector::Vector3;
 use suoi_types::Transform;
-use suoi_types::Rad;
 use suoi_types::Angle;
 
 use crate::{Projection, ProjectionType, Screen};
 
 #[allow(unused)]
 pub struct Camera {
-    pub projection: Projection<Rad>,
+    pub projection: Projection,
     pub transform: Transform,
 }
 
 impl Camera {
-    pub fn new(projection: Projection<Rad>, transform: Transform) -> Self {
+    pub fn new(projection: Projection, transform: Transform) -> Self {
         Self {
             projection,
             transform,

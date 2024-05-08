@@ -25,7 +25,7 @@ impl Context {
             .create_window(
                 screen.width(),
                 screen.height(),
-                "resource-manager-test",
+                "SUOI-GAME-ENGINE",
                 glfw::WindowMode::Windowed,
             )
             .expect("Failed to create GLFW window.");

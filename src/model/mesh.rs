@@ -1,6 +1,7 @@
 use std::ffi::c_void;
 
 use gl::types::*;
+use suoi_simp::obj_mesh::ObjMesh;
 use suoi_types::Vector;
 
 use crate::{Vertex, SIZE_OF_FLOAT};
@@ -11,6 +12,26 @@ pub struct Mesh {
     // pub textures: Vec<Texture>,
     vao: GLuint,
     vbo: GLuint,
+}
+
+impl From<&ObjMesh> for Mesh {
+    fn from(value: &ObjMesh) -> Self {
+        let mut vertices = Vec::<Vertex>::new();
+
+        for face in value.faces() {
+            for element in face.elements() {
+                vertices.push(Vertex {
+                    position: value.positions()
+                        [(element.position_index() - value.min_pos_index()) as usize],
+                    normal: value.normals()
+                        [(element.normal_index() - value.min_nrm_index()) as usize],
+                    uv: value.uvs()[(element.uv_index() - value.min_uvs_index()) as usize],
+                });
+            }
+        }
+
+        unsafe { Mesh::new(vertices) }
+    }
 }
 
 impl Mesh {
@@ -60,6 +81,20 @@ impl Mesh {
             // uvs
             Self::vertex_attrib(tex_addr, 2, stride, 3 + 3);
         })
+    }
+
+    pub unsafe fn draw(&self) {
+        // Bind
+        // gl::ActiveTexture(gl::TEXTURE1);
+        // gl::BindTexture(gl::TEXTURE_2D, tex.id());
+        gl::BindVertexArray(self.vao);
+
+        // Draw
+        gl::DrawArrays(gl::TRIANGLES, 0, self.vertices.len() as i32);
+
+        // Unbind
+        gl::BindVertexArray(0);
+        gl::BindTexture(gl::TEXTURE_2D, 0);
     }
 
     pub fn vertex_buffer(&self) -> Vec<f32> {

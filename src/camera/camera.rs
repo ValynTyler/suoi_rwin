@@ -1,7 +1,8 @@
-use nerd::matrix::Matrix4;
-use nerd::vector::Vector3;
-use suoi_types::Transform;
 use suoi_types::Angle;
+use suoi_types::Matrix4;
+use suoi_types::Transform;
+use suoi_types::Vector;
+use suoi_types::Vector3;
 
 use crate::{Projection, ProjectionType, Screen};
 
@@ -19,7 +20,6 @@ impl Camera {
         }
     }
 
-    #[rustfmt::skip]
     pub fn view_matrix(&self) -> Matrix4 {
         let u = self.transform.up();
         let r = self.transform.right();
@@ -31,17 +31,17 @@ impl Camera {
             z: -f.dot(self.transform.position()),
         };
 
-        Matrix4([
-             r.x,  u.x,  f.x, 0.,
-             r.y,  u.y,  f.y, 0.,
-             r.z,  u.z,  f.z, 0.,
-            -t.x, -t.y, -t.z, 1.,
-        ])
+        Matrix4(
+           [ r.x,  u.x,  f.x, 0.],
+           [ r.y,  u.y,  f.y, 0.],
+           [ r.z,  u.z,  f.z, 0.],
+           [-t.x, -t.y, -t.z, 1.],
+       )
     }
 
     pub fn projection_matrix(&self, screen: &Screen) -> Matrix4 {
         match self.projection.kind() {
-            ProjectionType::Perspective => nerd::matrix::Matrix4::perspective(
+            ProjectionType::Perspective => Matrix4::perspective(
                 self.projection.fov().deg().0,
                 screen.aspect_ratio(),
                 self.projection.planes().near,

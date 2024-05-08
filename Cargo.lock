@@ -94,10 +94,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "nerd"
-version = "0.1.0"
-
-[[package]]
 name = "objc"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -124,16 +120,12 @@ version = "0.1.0"
 dependencies = [
  "gl",
  "glfw",
- "nerd",
  "suoi_types",
 ]
 
 [[package]]
 name = "suoi_types"
 version = "0.1.0"
-dependencies = [
- "nerd",
-]
 
 [[package]]
 name = "winapi"

@@ -1,4 +1,4 @@
-use nerd::vector::Vector2;
+use suoi_types::Vector2;
 
 #[allow(unused)]
 struct MouseButton {
@@ -27,8 +27,8 @@ impl Default for Mouse {
         Self {
             left_button: Default::default(),
             right_button: Default::default(),
-            position: Vector2::ZERO,
-            last_pos: Vector2::ZERO,
+            position: Default::default(),
+            last_pos: Default::default(),
         }
     }
 }

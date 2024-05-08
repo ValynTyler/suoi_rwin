@@ -1,10 +1,10 @@
-use nerd::vector::Vector2;
+use suoi_types::Vector2;
 
 use crate::{Context, Mouse, Screen};
 
 pub enum Event {
     ResizedWindow(u32, u32),
-    MovedCursor(Vector2),
+    MovedCursor(f32, f32),
 }
 
 #[allow(unused)]
@@ -31,11 +31,14 @@ impl EventHandler {
                     self.events.push(Event::ResizedWindow(width, height))
                 }
                 glfw::WindowEvent::CursorPos(xpos, ypos) => {
-                    let pos = Vector2::new(xpos as f32, ypos as f32);
+                    let pos = Vector2 {
+                        x: xpos as f32,
+                        y: ypos as f32,
+                    };
 
                     mouse.update_position(pos);
 
-                    self.events.push(Event::MovedCursor(pos))
+                    self.events.push(Event::MovedCursor(pos.x, pos.y))
                 }
                 _ => {}
             }

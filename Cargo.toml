@@ -7,5 +7,4 @@ edition = "2021"
 gl = "0.14.0"
 glfw = "*"
 
-nerd = { path = "../nerd-rs" }
 suoi_types = { path = "../suoi_types" }

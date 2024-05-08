@@ -1,4 +1,4 @@
-use nerd::color::Color;
+use suoi_types::Color;
 
 pub struct Renderer {}
 

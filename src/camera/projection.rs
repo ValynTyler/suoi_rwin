@@ -1,4 +1,4 @@
-use suoi_types::{Angle, Rad};
+use suoi_types::{Angle, Deg, Rad};
 
 #[allow(unused)]
 pub struct ClippingPlanes {
@@ -23,12 +23,26 @@ pub struct Projection {
     fov: Rad,
 }
 
+impl Default for Projection {
+    fn default() -> Self {
+        Self {
+            kind: ProjectionType::Perspective,
+            planes: ClippingPlanes::new(0.0001, 1000.0),
+            fov: Deg(60.0).rad(),
+        }
+    }
+}
+
 impl Projection {
     pub fn new<A>(kind: ProjectionType, planes: ClippingPlanes, fov: A) -> Self
     where
         A: Angle,
     {
-        Self { kind, planes, fov: fov.rad() }
+        Self {
+            kind,
+            planes,
+            fov: fov.rad(),
+        }
     }
 
     pub fn kind(&self) -> &ProjectionType {

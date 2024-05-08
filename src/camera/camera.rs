@@ -12,6 +12,15 @@ pub struct Camera {
     pub transform: Transform,
 }
 
+impl Default for Camera {
+    fn default() -> Self {
+        Self {
+            projection: Default::default(),
+            transform: Default::default(),
+        }
+    }
+}
+
 impl Camera {
     pub fn new(projection: Projection, transform: Transform) -> Self {
         Self {
@@ -32,11 +41,11 @@ impl Camera {
         };
 
         Matrix4(
-           [ r.x,  u.x,  f.x, 0.],
-           [ r.y,  u.y,  f.y, 0.],
-           [ r.z,  u.z,  f.z, 0.],
-           [-t.x, -t.y, -t.z, 1.],
-       )
+            [r.x, u.x, f.x, 0.],
+            [r.y, u.y, f.y, 0.],
+            [r.z, u.z, f.z, 0.],
+            [-t.x, -t.y, -t.z, 1.],
+        )
     }
 
     pub fn projection_matrix(&self, screen: &Screen) -> Matrix4 {

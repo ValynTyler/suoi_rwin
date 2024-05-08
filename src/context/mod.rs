@@ -1,5 +1,5 @@
 use glfw::{Glfw, GlfwReceiver, PWindow, WindowEvent};
-use glfw::Context as GLFWContext;
+pub use glfw::Context as GLFWContext;
 
 type Events = GlfwReceiver<(f64, WindowEvent)>;
 

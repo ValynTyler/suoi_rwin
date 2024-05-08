@@ -20,6 +20,7 @@ impl Shader {
         gl::UseProgram(0);
     }
 
+    /// Sets shader uniform of `self`
     pub unsafe fn set_uniform<U>(&self, name: &str, uniform: U)
     where
         U: ShaderUniform,
@@ -27,6 +28,7 @@ impl Shader {
         uniform.set(&self, name)
     }
 
+    /// Compiles shader
     pub unsafe fn compile(
         vertex: ShaderStage,
         fragment: ShaderStage,
@@ -50,6 +52,9 @@ impl Shader {
         }
     }
 
+    /// Returns `Ok(())` if there are no linking errors,
+    /// or `Err((ShaderError::LinkingError(error_string)))`
+    /// when OpenGL fails to link shader
     pub unsafe fn linking_status(&self) -> Result<(), ShaderError> {
         let mut success = gl::FALSE as GLint;
         let mut info_log: Vec<u8> = Vec::with_capacity(512);

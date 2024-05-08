@@ -7,5 +7,5 @@ edition = "2021"
 gl = "0.14.0"
 glfw = "*"
 
-suoi_types = { path = "../suoi_types" }
-suoi_simp = { path = "../suoi_simp" }
+suoi_simp = { git = "https://github.com/ValynTyler/suoi_simp.git" }
+suoi_types = { git = "https://github.com/ValynTyler/suoi_types.git" }

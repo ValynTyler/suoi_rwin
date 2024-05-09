@@ -1,19 +1,37 @@
+use std::path::PathBuf;
+
 use suoi_simp::Obj;
 use suoi_types::{Matrix4, Transform};
 
-use crate::Mesh;
+use crate::{Mesh, Texture};
 
+#[allow(unused)]
 pub struct Model {
+    path: PathBuf,
     meshes: Vec<Mesh>,
     transform: Transform,
 }
 
 impl From<Obj> for Model {
     fn from(value: Obj) -> Self {
-        let mut model = Self { meshes: vec![], transform: Transform::default() };
-        
-        for mesh in value.meshes() {
-            model.meshes.push(mesh.into());
+        let mut model = Self {
+            path: value.path().to_owned(),
+            meshes: vec![],
+            transform: Transform::default(),
+        };
+
+        for obj_mesh in value.meshes() {
+            let mut mesh: Mesh = obj_mesh.into();
+
+            match obj_mesh.get_material().get_diffuse_path() {
+                None => (),
+                Some(path) => unsafe {
+                    let tex_path = value.path().parent().unwrap().join(path);
+                    mesh.textures.push(Texture::new(&tex_path));
+                },
+            };
+
+            model.meshes.push(mesh);
         }
 
         model

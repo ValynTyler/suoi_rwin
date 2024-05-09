@@ -1,4 +1,7 @@
-use std::{ffi::c_void, path::{Path, PathBuf}};
+use std::{
+    ffi::c_void,
+    path::{Path, PathBuf},
+};
 
 use gl::types::GLuint;
 use image::GenericImage;
@@ -57,13 +60,15 @@ impl Texture {
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
         });
 
+        tex.load();
+
         tex
     }
 
     pub unsafe fn load(&self) {
         self.with(|| {
-            let img = image::open(&Path::new(&self.path))
-                .expect("Failed to load Texture")
+            let img = image::open(&self.path)
+                .expect(&format!("Failed to load Texture at {:?}", &self.path))
                 .flipv();
             let data = img.raw_pixels();
 
@@ -86,5 +91,9 @@ impl Texture {
             );
             gl::GenerateMipmap(gl::TEXTURE_2D);
         });
+    }
+    
+    pub fn id(&self) -> u32 {
+        self.id
     }
 }

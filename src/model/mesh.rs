@@ -4,12 +4,12 @@ use gl::types::*;
 use suoi_simp::obj_mesh::ObjMesh;
 use suoi_types::Vector;
 
-use crate::{GraphicsObject, Vertex, SIZE_OF_FLOAT};
+use crate::{GraphicsObject, Texture, Vertex, SIZE_OF_FLOAT};
 
 #[allow(unused)]
 pub struct Mesh {
     pub vertices: Vec<Vertex>,
-    // pub textures: Vec<Texture>,
+    pub textures: Vec<Texture>,
     vao: GLuint,
     vbo: GLuint,
 }
@@ -30,7 +30,7 @@ impl From<&ObjMesh> for Mesh {
             }
         }
 
-        unsafe { Mesh::new(vertices) }
+        unsafe { Mesh::new(vertices, vec![]) }
     }
 }
 
@@ -53,7 +53,7 @@ impl GraphicsObject for Mesh {
 
 impl Mesh {
     // Creates a new instance of `Mesh` and loads it
-    pub unsafe fn new(vertices: Vec<Vertex>) -> Self {
+    pub unsafe fn new(vertices: Vec<Vertex>, textures: Vec<Texture>) -> Self {
         // initialize objects
         let mut vao: GLuint = 0;
         let mut vbo: GLuint = 0;
@@ -67,7 +67,7 @@ impl Mesh {
             vao,
             vbo,
             vertices,
-            // texture,
+            textures,
         };
         mesh.load();
 
@@ -101,17 +101,15 @@ impl Mesh {
     }
 
     pub unsafe fn draw(&self) {
-        // Bind
-        // gl::ActiveTexture(gl::TEXTURE1);
-        // gl::BindTexture(gl::TEXTURE_2D, tex.id());
-        gl::BindVertexArray(self.vao);
-
-        // Draw
-        gl::DrawArrays(gl::TRIANGLES, 0, self.vertices.len() as i32);
-
-        // Unbind
-        gl::BindVertexArray(0);
-        gl::BindTexture(gl::TEXTURE_2D, 0);
+        self.with(|| {
+            gl::ActiveTexture(gl::TEXTURE1);
+            match self.textures.last() {
+                Some(tex) => {
+                    tex.with(|| gl::DrawArrays(gl::TRIANGLES, 0, self.vertices.len() as i32))
+                }
+                None => gl::DrawArrays(gl::TRIANGLES, 0, self.vertices.len() as i32),
+            }
+        })
     }
 
     pub fn vertex_buffer(&self) -> Vec<f32> {

@@ -27,3 +27,9 @@ pub use shader::*;
 
 pub mod model;
 pub use model::*;
+
+pub trait GraphicsObject {
+    unsafe fn with<T>(&self, operation: T)
+    where
+        T: FnMut();
+}

@@ -2,16 +2,16 @@ use std::str::from_utf8;
 
 use gl::types::{GLchar, GLint, GLuint};
 
-use crate::{ShaderError, ShaderStage, ShaderUniform};
+use crate::{GraphicsObject, ShaderError, ShaderStage, ShaderUniform};
 
 #[allow(unused)]
 pub struct Shader {
     pub(crate) id: GLuint,
 }
 
-impl Shader {
+impl GraphicsObject for Shader {
     /// Calls `f` with `self` as the active shader
-    pub unsafe fn with<F>(&self, mut f: F)
+    unsafe fn with<F>(&self, mut f: F)
     where
         F: FnMut(),
     {
@@ -19,7 +19,9 @@ impl Shader {
         f();
         gl::UseProgram(0);
     }
+}
 
+impl Shader {
     /// Sets shader uniform of `self`
     pub unsafe fn set_uniform<U>(&self, name: &str, uniform: U)
     where

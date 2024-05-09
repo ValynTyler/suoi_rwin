@@ -4,7 +4,7 @@ use gl::types::*;
 use suoi_simp::obj_mesh::ObjMesh;
 use suoi_types::Vector;
 
-use crate::{Vertex, SIZE_OF_FLOAT};
+use crate::{GraphicsObject, Vertex, SIZE_OF_FLOAT};
 
 #[allow(unused)]
 pub struct Mesh {
@@ -31,6 +31,23 @@ impl From<&ObjMesh> for Mesh {
         }
 
         unsafe { Mesh::new(vertices) }
+    }
+}
+
+impl GraphicsObject for Mesh {
+    /// calls `f` with self.vao as the bound `ArrayObject`
+    unsafe fn with<F>(&self, mut f: F)
+    where
+        F: FnMut(),
+    {
+        // bind the vertex array object (VAO) as the current vertex array in order to work with it
+        gl::BindVertexArray(self.vao);
+
+        // call `f`
+        f();
+
+        // Unbind
+        gl::BindVertexArray(0);
     }
 }
 
@@ -107,21 +124,6 @@ impl Mesh {
         }
 
         buffer
-    }
-
-    /// calls `f` with self.vao as the bound `ArrayObject`
-    unsafe fn with<F>(&self, mut f: F)
-    where
-        F: FnMut(),
-    {
-        // bind the vertex array object (VAO) as the current vertex array in order to work with it
-        gl::BindVertexArray(self.vao);
-
-        // call `f`
-        f();
-
-        // Unbind
-        gl::BindVertexArray(0);
     }
 
     /**

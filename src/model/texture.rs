@@ -1,11 +1,28 @@
-use std::path::{Path, PathBuf};
+use std::{ffi::c_void, path::{Path, PathBuf}};
 
 use gl::types::GLuint;
+use image::GenericImage;
+
+use crate::GraphicsObject;
 
 #[allow(unused)]
 pub struct Texture {
     id: GLuint,
     path: PathBuf,
+}
+
+impl GraphicsObject for Texture {
+    unsafe fn with<F>(&self, mut f: F)
+    where
+        F: FnMut(),
+    {
+        // BIND
+        gl::BindTexture(gl::TEXTURE_2D, self.id);
+        // call `f`
+        f();
+        // UNBIND
+        gl::BindTexture(gl::TEXTURE_2D, 0);
+    }
 }
 
 impl Texture {
@@ -43,39 +60,31 @@ impl Texture {
         tex
     }
 
-    // pub unsafe fn load(&self) {
-    //     // BIND
-    //     gl::BindTexture(gl::TEXTURE_2D, self.id);
+    pub unsafe fn load(&self) {
+        self.with(|| {
+            let img = image::open(&Path::new(&self.path))
+                .expect("Failed to load Texture")
+                .flipv();
+            let data = img.raw_pixels();
 
-    //     let image = GLImage::load(&self.path);
-    //     let data = image.pixel_data();
+            let color_type = match img.color() {
+                image::ColorType::RGB(_) => gl::RGB,
+                image::ColorType::RGBA(_) => gl::RGBA,
+                _ => panic!(),
+            };
 
-    //     gl::TexImage2D(
-    //         gl::TEXTURE_2D,
-    //         0,
-    //         gl::RGB as i32,
-    //         image.width() as i32,
-    //         image.height() as i32,
-    //         0,
-    //         gl::RGB,
-    //         gl::UNSIGNED_BYTE,
-    //         &data[0] as *const u8 as *const c_void,
-    //     );
-    //     gl::GenerateMipmap(gl::TEXTURE_2D);
-
-    //     // UNBIND
-    //     gl::BindTexture(gl::TEXTURE_2D, 0);
-    // }
-
-    unsafe fn with<F>(&self, mut f: F)
-    where
-        F: FnMut(),
-    {
-        // BIND
-        gl::BindTexture(gl::TEXTURE_2D, self.id);
-        // call `f`
-        f();
-        // UNBIND
-        gl::BindTexture(gl::TEXTURE_2D, 0);
+            gl::TexImage2D(
+                gl::TEXTURE_2D,
+                0,
+                color_type as i32,
+                img.width() as i32,
+                img.height() as i32,
+                0,
+                color_type,
+                gl::UNSIGNED_BYTE,
+                &data[0] as *const u8 as *const c_void,
+            );
+            gl::GenerateMipmap(gl::TEXTURE_2D);
+        });
     }
 }

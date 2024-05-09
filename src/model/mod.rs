@@ -1,17 +1,19 @@
-pub mod vertex;
-
 use suoi_simp::Obj;
 use suoi_types::{Matrix4, Transform};
+
+pub mod vertex;
 pub use vertex::*;
 
 pub mod mesh;
 pub use mesh::*;
 
+pub mod texture;
+pub use texture::*;
+
 use gl::types::*;
 
 pub const SIZE_OF_FLOAT: GLsizei = std::mem::size_of::<GLfloat>() as GLsizei;
 
-#[allow(unused)]
 pub struct Model {
     meshes: Vec<Mesh>,
     transform: Transform,

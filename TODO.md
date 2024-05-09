@@ -1,4 +1,4 @@
 # TODO list:
 - [ ] renderer
-- [ ] camera::camera
-- [ ] camera::projection
+- [x] camera::camera
+- [x] camera::projection

@@ -56,7 +56,16 @@ impl Camera {
                 self.projection.planes().near,
                 self.projection.planes().far,
             ),
-            ProjectionType::Ortho => todo!(),
+            ProjectionType::Ortho => {
+                Matrix4::ortho(
+                   -2.0,
+                    2.0,
+                   -2.0,
+                    2.0,
+                    self.projection.planes().near,
+                    self.projection.planes().far,
+                )
+            }
         }
     }
 }

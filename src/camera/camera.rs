@@ -44,7 +44,7 @@ impl Camera {
             [r.x, u.x, f.x, 0.],
             [r.y, u.y, f.y, 0.],
             [r.z, u.z, f.z, 0.],
-            [-t.x, -t.y, -t.z, 1.],
+            [t.x, t.y, t.z, 1.],
         )
     }
 

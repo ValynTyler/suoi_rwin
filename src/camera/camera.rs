@@ -1,4 +1,5 @@
 use suoi_types::Angle;
+use suoi_types::Matrix;
 use suoi_types::Matrix4;
 use suoi_types::Transform;
 use suoi_types::Vector;
@@ -40,12 +41,7 @@ impl Camera {
             z: -f.dot(self.transform.position()),
         };
 
-        Matrix4(
-            [r.x, u.x, f.x, 0.],
-            [r.y, u.y, f.y, 0.],
-            [r.z, u.z, f.z, 0.],
-            [t.x, t.y, t.z, 1.],
-        )
+        Matrix4::look_at(f, u, r, t).transposition()
     }
 
     pub fn projection_matrix(&self, screen: &Screen) -> Matrix4 {

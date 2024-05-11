@@ -1,15 +1,23 @@
 use suoi_types::Vector2;
 
+use crate::Context;
+
 #[allow(unused)]
-struct MouseButton {
-    is_clicked: bool,
+pub struct MouseButton {
+    is_pressed: bool,
 }
 
 impl Default for MouseButton {
     fn default() -> Self {
         Self {
-            is_clicked: Default::default(),
+            is_pressed: Default::default(),
         }
+    }
+}
+
+impl MouseButton {
+    pub fn is_pressed(&self) -> bool {
+        self.is_pressed
     }
 }
 
@@ -42,11 +50,34 @@ impl Mouse {
         self.position - self.last_pos
     }
 
-    pub fn poll_delta(&mut self) {
-        self.last_pos = self.position
+    pub fn poll(&mut self, ctx: &Context) {
+        // Mouse 1
+        self.left_button.is_pressed =  match ctx.window().get_mouse_button(glfw::MouseButton::Button1) {
+            glfw::Action::Press => true,
+            glfw::Action::Repeat => true,
+            glfw::Action::Release => false,
+        };
+
+        // Mouse 1
+        self.right_button.is_pressed =  match ctx.window().get_mouse_button(glfw::MouseButton::Button2) {
+            glfw::Action::Release => true,
+            glfw::Action::Repeat => true,
+            glfw::Action::Press => false,
+        };
+        
+        // Mouse Delta
+        self.last_pos = self.position;
     }
 
     pub fn update_position(&mut self, pos: Vector2) {
         self.position = pos;
+    }
+    
+    pub fn left_button(&self) -> &MouseButton {
+        &self.left_button
+    }
+    
+    pub fn right_button(&self) -> &MouseButton {
+        &self.right_button
     }
 }

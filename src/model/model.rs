@@ -9,7 +9,7 @@ use crate::{Mesh, Texture};
 pub struct Model {
     path: PathBuf,
     meshes: Vec<Mesh>,
-    transform: Transform,
+    pub transform: Transform,
 }
 
 impl From<Obj> for Model {

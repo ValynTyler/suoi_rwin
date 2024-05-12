@@ -40,7 +40,7 @@ impl ShaderUniform for f32 {
 //     }
 // }
 
-impl ShaderUniform for Matrix4 {
+impl ShaderUniform for &Matrix4 {
     unsafe fn set(&self, shader: &Shader, var_name: &str) {
         let name = CString::new(var_name).unwrap();
         let address = gl::GetUniformLocation(shader.id, name.as_ptr());

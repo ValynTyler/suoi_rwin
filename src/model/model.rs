@@ -41,8 +41,4 @@ impl Model {
             mesh.draw()
         }
     }
-
-    // pub fn model_matrix(&self) -> Matrix4 {
-    //     &Matrix4::translate(self.transform.position()) * &self.transform.rotation().mat()
-    // }
 }

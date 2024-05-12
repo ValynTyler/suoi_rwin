@@ -60,9 +60,9 @@ impl Mouse {
 
         // Mouse 1
         self.right_button.is_pressed =  match ctx.window().get_mouse_button(glfw::MouseButton::Button2) {
-            glfw::Action::Release => true,
+            glfw::Action::Press => true,
             glfw::Action::Repeat => true,
-            glfw::Action::Press => false,
+            glfw::Action::Release => false,
         };
         
         // Mouse Delta

@@ -1,7 +1,6 @@
 use std::path::PathBuf;
 
 use suoi_simp::Obj;
-use suoi_types::{Matrix4, Transform};
 
 use crate::{Mesh, Texture};
 
@@ -9,7 +8,6 @@ use crate::{Mesh, Texture};
 pub struct Model {
     path: PathBuf,
     meshes: Vec<Mesh>,
-    pub transform: Transform,
 }
 
 impl From<Obj> for Model {
@@ -17,7 +15,6 @@ impl From<Obj> for Model {
         let mut model = Self {
             path: value.path().to_owned(),
             meshes: vec![],
-            transform: Transform::default(),
         };
 
         for obj_mesh in value.meshes() {
@@ -45,7 +42,7 @@ impl Model {
         }
     }
 
-    pub fn model_matrix(&self) -> Matrix4 {
-        &Matrix4::translate(self.transform.position()) * &self.transform.rotation().mat()
-    }
+    // pub fn model_matrix(&self) -> Matrix4 {
+    //     &Matrix4::translate(self.transform.position()) * &self.transform.rotation().mat()
+    // }
 }

@@ -54,6 +54,14 @@ impl Context {
     pub fn close(&mut self) {
         self.window.set_should_close(true);
     }
+
+    pub fn enable_cursor(&mut self) {
+        self.window.set_cursor_mode(glfw::CursorMode::Normal)
+    }
+
+    pub fn disable_cursor(&mut self) {
+        self.window.set_cursor_mode(glfw::CursorMode::Disabled)
+    }
     
     pub fn glfw(&self) -> &Glfw {
         &self.glfw

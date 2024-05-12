@@ -1,4 +1,3 @@
-use suoi_types::Angle;
 use suoi_types::Matrix;
 use suoi_types::Matrix4;
 use suoi_types::Transform;
@@ -46,18 +45,18 @@ impl Camera {
 
     pub fn projection_matrix(&self, screen: &Screen) -> Matrix4 {
         match self.projection.kind() {
-            ProjectionType::Perspective => Matrix4::perspective(
-                self.projection.fov().deg().0,
+            ProjectionType::Perspective(fov) => Matrix4::perspective(
+                fov.0,
                 screen.aspect_ratio(),
                 self.projection.planes().near,
                 self.projection.planes().far,
             ),
-            ProjectionType::Ortho => {
+            ProjectionType::Ortho(width, height) => {
                 Matrix4::ortho(
-                   -2.0,
-                    2.0,
-                   -2.0,
-                    2.0,
+                   -(*width as f32) / 2.0,
+                    (*width as f32) / 2.0,
+                   -(*height as f32) / 2.0,
+                    (*height as f32) / 2.0,
                     self.projection.planes().near,
                     self.projection.planes().far,
                 )

@@ -1,6 +1,6 @@
 use suoi_types::Vector2;
 
-use crate::Context;
+use crate::{Context, Screen};
 
 #[allow(unused)]
 pub struct MouseButton {
@@ -79,5 +79,12 @@ impl Mouse {
     
     pub fn right_button(&self) -> &MouseButton {
         &self.right_button
+    }
+
+    pub fn ndc(&self, screen: &Screen) -> Vector2 {
+        Vector2 {
+            x: self.position().x / screen.width() as f32 * 2.0 - 1.0,
+            y: self.position().y / screen.height() as f32 * 2.0 - 1.0
+        }
     }
 }

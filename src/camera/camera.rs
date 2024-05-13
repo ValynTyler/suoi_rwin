@@ -40,7 +40,7 @@ impl Camera {
             z: -f.dot(self.transform.position()),
         };
 
-        Matrix4::look_at(f, u, r, t).transposition()
+        Matrix4::look_at(f, u, r, t).transpose()
     }
 
     pub fn projection_matrix(&self, screen: &Screen) -> Matrix4 {

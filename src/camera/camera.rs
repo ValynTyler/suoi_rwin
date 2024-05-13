@@ -51,15 +51,27 @@ impl Camera {
                 self.projection.planes().near,
                 self.projection.planes().far,
             ),
-            ProjectionType::Ortho(width, height) => {
-                Matrix4::ortho(
-                   -(*width as f32) / 2.0,
-                    (*width as f32) / 2.0,
-                   -(*height as f32) / 2.0,
-                    (*height as f32) / 2.0,
-                    self.projection.planes().near,
-                    self.projection.planes().far,
-                )
+            ProjectionType::Ortho(width, height) => Matrix4::ortho(
+                -(*width as f32) / 2.0,
+                (*width as f32) / 2.0,
+                -(*height as f32) / 2.0,
+                (*height as f32) / 2.0,
+                self.projection.planes().near,
+                self.projection.planes().far,
+            ),
+        }
+    }
+
+    pub fn inverse_projection_matrix(&self, screen: &Screen) -> Matrix4 {
+        match self.projection.kind() {
+            ProjectionType::Perspective(fov) => Matrix4::inverse_perspective(
+                fov.0,
+                screen.aspect_ratio(),
+                self.projection.planes().near,
+                self.projection.planes().far,
+            ),
+            ProjectionType::Ortho(_width, _height) => {
+                todo!()
             }
         }
     }

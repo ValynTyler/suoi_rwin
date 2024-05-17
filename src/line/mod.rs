@@ -9,7 +9,8 @@ pub struct Line {
     shader: Shader,
     vao: GLuint,
     vbo: GLuint,
-    vertices: Vec<f32>,
+    start: Vector3,
+    end: Vector3,
 }
 
 impl Line {
@@ -31,15 +32,12 @@ impl Line {
         )
         .unwrap();
 
-        let mut vertices = vec![];
-        vertices.append(&mut start.list());
-        vertices.append(&mut end.list());
-
         let line = Self {
             shader,
             vao,
             vbo,
-            vertices,
+            start,
+            end,
         };
         line.load();
 
@@ -52,8 +50,8 @@ impl Line {
 
         gl::BufferData(
             gl::ARRAY_BUFFER,
-            (self.vertices.len() * crate::SIZE_OF_FLOAT as usize) as GLsizeiptr,
-            &self.vertices[0] as *const f32 as *const c_void,
+            (self.vertex_buffer().len() * crate::SIZE_OF_FLOAT as usize) as GLsizeiptr,
+            &self.vertex_buffer()[0] as *const f32 as *const c_void,
             gl::STATIC_DRAW,
         );
 
@@ -88,5 +86,23 @@ impl Line {
             // Unbind
             gl::BindVertexArray(0);
         })
+    }
+
+    fn vertex_buffer(&self) -> Vec<f32> {
+        let mut vertices = vec![];
+        vertices.append(&mut self.start.list());
+        vertices.append(&mut self.end.list());
+
+        vertices
+    }
+    
+    pub fn set_start(&mut self, start: Vector3) {
+        self.start = start;
+        unsafe { self.load() };
+    }
+    
+    pub fn set_end(&mut self, end: Vector3) {
+        self.end = end;
+        unsafe { self.load() };
     }
 }

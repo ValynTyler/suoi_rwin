@@ -42,11 +42,13 @@ impl GraphicsObject for Mesh {
     {
         // bind the vertex array object (VAO) as the current vertex array in order to work with it
         gl::BindVertexArray(self.vao);
+        gl::BindBuffer(gl::ARRAY_BUFFER, self.vbo);
 
         // call `f`
         f();
 
         // Unbind
+        gl::BindBuffer(gl::ARRAY_BUFFER, 0);
         gl::BindVertexArray(0);
     }
 }
@@ -77,7 +79,6 @@ impl Mesh {
     pub unsafe fn load(&self) {
         self.with(|| {
             // bind data to the active buffers (VBO, EBO)
-            gl::BindBuffer(gl::ARRAY_BUFFER, self.vbo);
             gl::BufferData(
                 gl::ARRAY_BUFFER,
                 (self.vertex_buffer().len() * crate::SIZE_OF_FLOAT as usize) as GLsizeiptr,
